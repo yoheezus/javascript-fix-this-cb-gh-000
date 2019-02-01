@@ -69,10 +69,10 @@ function makeDessert() {
   //add code here to decide which make... function to call
       if (this.parentNode === document.getElementById("cake")) {
           console.log("clicked cake")
-          makeCake.call(cake)
+          makeCake.call(this.parentNode)
       } else if (this.parentNode === document.getElementById("pie")) {
           console.log("clicked pie")
-          makePie.call(pie)
+          makePie.call(this.parentNode)
       }
   //based on which link was clicked
 }
