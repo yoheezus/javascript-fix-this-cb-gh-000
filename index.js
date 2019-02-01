@@ -59,6 +59,7 @@ function mix(updateFunction) {
 }
 
 function cool(updateFunction) {
+    console.log("cool context is: ", this)
   var status = "It has to cool! Hands off!"
   setTimeout(() => {
     this.decorate(updateFunction)
