@@ -20,24 +20,28 @@ var pie = {
   topping: "streusel",
   bakeTemp: "350 degrees",
   bakeTime: "75 minutes",
-  customer: "Tammy"
+  customer: "Tammy",
+  decorate: cake.decorate.bind(pie)
 }
 
 function makeCake() {
-  var updateCakeStatus;
-  mix(updateCakeStatus)
+    console.log("makeCake context is: ", this)
+  var updateCakeStatus = updateStatus.bind(this);
+  mix.call(this, updateCakeStatus)
 }
 
 function makePie() {
-  var updatePieStatus;
-  mix(updatePieStatus)
+    console.log("makePie context is: ", this)
+  var updatePieStatus = updateStatus.bind(this);
+  mix.call(this, updatePieStatus)
 }
 
 function updateStatus(statusText) {
-  this.getElementsByClassName("status")[0].innerText = statusText
+  document.getElementsByClassName("status")[0].innerText = statusText
 }
 
 function bake(updateFunction) {
+  console.log("bake context is:", this)
   var status = "Baking at " + this.bakeTemp + " for " + this.bakeTime
   setTimeout(function() {
     cool(updateFunction)
@@ -45,9 +49,11 @@ function bake(updateFunction) {
 }
 
 function mix(updateFunction) {
+    var context = this
+  console.log("mix context is: ", context)
   var status = "Mixing " + this.ingredients.join(", ")
-  setTimeout(function() {
-    bake(updateFunction)
+  setTimeout(function(context) {
+    bake.call(context, updateFunction)
   }, 2000)
   updateFunction(status)
 }
@@ -61,6 +67,13 @@ function cool(updateFunction) {
 
 function makeDessert() {
   //add code here to decide which make... function to call
+      if (this.parentNode === document.getElementById("cake")) {
+          console.log("clicked cake")
+          makeCake.call(cake)
+      } else if (this.parentNode === document.getElementById("pie")) {
+          console.log("clicked pie")
+          makePie.call(pie)
+      }
   //based on which link was clicked
 }
 
