@@ -44,7 +44,7 @@ function bake(updateFunction) {
   console.log("bake context is:", this)
   var status = "Baking at " + this.bakeTemp + " for " + this.bakeTime
   setTimeout(() => {
-    cool(updateFunction)
+    cool.call(this, updateFunction)
   }, 2000)
 }
 
