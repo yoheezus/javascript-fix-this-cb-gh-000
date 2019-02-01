@@ -28,7 +28,7 @@ function makeCake() {
     var context = this
     console.log("makeCake context is: ", context)
   var updateCakeStatus = updateStatus.bind(context);
-  mix.call(context, updateCakeStatus)
+  mix.call(cake, updateCakeStatus)
 }
 
 function makePie() {
