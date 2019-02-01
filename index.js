@@ -8,8 +8,8 @@ var cake = {
   decorate: function(updateFunction) {
     var status = "Decorating with " + this.topping + ". Ready to eat soon!"
     updateFunction(status)
-    setTimeout(function() {
-      updateFunction(serve.apply(this, "Happy Eating!", this.customer))
+    setTimeout(() => {
+      updateFunction(serve.apply(this, ["Happy Eating!", this.customer]))
     }, 2000)
   }
 }
@@ -24,43 +24,59 @@ var pie = {
 }
 
 function makeCake() {
-  var updateCakeStatus;
-  mix(updateCakeStatus)
+    console.log("makeCake context is: ", this)
+  var updateCakeStatus = updateStatus.bind(this);
+  mix.call(cake, updateCakeStatus)
 }
 
 function makePie() {
-  var updatePieStatus;
-  mix(updatePieStatus)
+    console.log("makePie context is: ", this)
+  var updatePieStatus = updateStatus.bind(this);
+  pie.decorate = cake.decorate.bind(pie)
+  mix.call(pie, updatePieStatus)
 }
 
 function updateStatus(statusText) {
+    console.log("function called with status =" + statusText)
   this.getElementsByClassName("status")[0].innerText = statusText
 }
 
 function bake(updateFunction) {
+  console.log("bake context is:", this)
   var status = "Baking at " + this.bakeTemp + " for " + this.bakeTime
-  setTimeout(function() {
-    cool(updateFunction)
+  setTimeout(() => {
+    cool.call(this, updateFunction)
   }, 2000)
+  updateFunction(status)
 }
 
 function mix(updateFunction) {
+  console.log("mix context is: ", this)
   var status = "Mixing " + this.ingredients.join(", ")
-  setTimeout(function() {
-    bake(updateFunction)
+  setTimeout(() => {
+    bake.call(this, updateFunction)
   }, 2000)
   updateFunction(status)
 }
 
 function cool(updateFunction) {
+    console.log("cool context is: ", this)
   var status = "It has to cool! Hands off!"
-  setTimeout(function() {
+  setTimeout(() => {
     this.decorate(updateFunction)
   }, 2000)
+  updateFunction(status)
 }
 
 function makeDessert() {
   //add code here to decide which make... function to call
+      if (this.parentNode === document.getElementById("cake")) {
+          console.log("clicked cake")
+          makeCake.call(this.parentNode)
+      } else if (this.parentNode === document.getElementById("pie")) {
+          console.log("clicked pie")
+          makePie.call(this.parentNode)
+      }
   //based on which link was clicked
 }
 
