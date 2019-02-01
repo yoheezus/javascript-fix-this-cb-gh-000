@@ -49,8 +49,7 @@ function bake(updateFunction) {
 }
 
 function mix(updateFunction) {
-    var context = this
-  console.log("mix context is: ", context)
+  console.log("mix context is: ", this)
   var status = "Mixing " + this.ingredients.join(", ")
   setTimeout(() => {
     bake.call(this, updateFunction)
