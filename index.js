@@ -37,7 +37,7 @@ function makePie() {
 }
 
 function updateStatus(statusText) {
-  document.getElementsByClassName("status")[0].innerText = statusText
+  this.getElementsByClassName("status")[0].innerText = statusText
 }
 
 function bake(updateFunction) {
