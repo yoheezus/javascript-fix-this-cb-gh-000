@@ -37,6 +37,7 @@ function makePie() {
 }
 
 function updateStatus(statusText) {
+    console.log("function called)")
   this.getElementsByClassName("status")[0].innerText = statusText
 }
 
